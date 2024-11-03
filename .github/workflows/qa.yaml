@@ -21,3 +21,8 @@ jobs:
       - run: npm run test.ci
       - run: npm run build.ci
       - run: npm run build-lib
+      - name: Publish
+        working-directory: ./dist-lib
+        run: npm publish --access public --tag ${{github.ref_name == 'master' && 'latest' || 'next' }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
